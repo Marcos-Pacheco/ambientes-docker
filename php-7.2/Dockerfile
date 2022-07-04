@@ -10,7 +10,9 @@ WORKDIR /var/www
 
 # instala depêndencias
 RUN apt-get update 
-RUN apt-get install -y build-essential libpng-dev libjpeg62-turbo-dev libfreetype6-dev locales zip jpegoptim optipng pngquant gifsicle vim nano unzip git curl libzip-dev zlib1g-dev libicu-dev libgmp-dev libpq-dev libxml2-dev cron
+RUN apt-get install -y build-essential libpng-dev libjpeg62-turbo-dev libfreetype6-dev locales zip jpegoptim optipng pngquant gifsicle vim nano unzip git curl libzip-dev zlib1g-dev libicu-dev libgmp-dev libpq-dev libxml2-dev cron libmagickwand-dev libmagickcore-dev imagemagick
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
 RUN docker-php-ext-enable opcache
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
