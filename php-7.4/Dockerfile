@@ -1,7 +1,7 @@
 FROM php:7.4-fpm
 
 LABEL version="1.0"
-LABEL description="Imagem php7.2-fpm costumizada."
+LABEL description="Imagem php7.4-fpm costumizada."
 LABEL manintainer="Marcos Pachêco"
 LABEL email="marcos.hr.pacheco@gmail.com"
 

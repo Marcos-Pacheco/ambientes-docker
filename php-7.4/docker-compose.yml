@@ -1,0 +1,45 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: marcospacheco/php-7.4
+    container_name: app
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      # - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app_name
+      - database
+      
+  #Nginx Service app_name
+  app_name:
+    image: nginx:alpine
+    container_name: app_name
+    restart: always
+    tty: true
+    ports:
+      - "83:80"
+      - "445:443"
+    volumes:
+      - ./:/var/www
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app_name
+
+#Docker Networks
+networks:
+  portal:
+    driver: bridge
+  database:
+    name: database_database
+    external: true
