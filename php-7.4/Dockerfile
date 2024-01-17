@@ -11,7 +11,7 @@ WORKDIR /var/www
 # variaveis
 ENV NVM_DIR /usr/local/nvm
 
-# 
+# criar diretorio nvm
 RUN mkdir $NVM_DIR
 
 # instala depêndencias
@@ -27,9 +27,7 @@ RUN docker-php-ext-install bcmath exif pcntl zip calendar intl gmp pdo pdo_pgsql
 
 # Install nvm, latest node and npm
 RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-RUN echo "source $NVM_DIR/nvm.sh && \
-            nvm install node \
-            npm install npm@latest -g"
+RUN . $NVM_DIR/nvm.sh && nvm install node && npm install npm@latest -g
 
 # limpa o cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
@@ -42,10 +40,14 @@ RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # copia os dados do diretorio atual para o workdir
-COPY . /var/www
+COPY ./siafc /var/www/siafc
+COPY ./cafor /var/www/cafor
+COPY ./cafor_old /var/www/cafor_old
 
 # copia as permissões atuais dos arquivos
-COPY --chown=www:www . /var/www
+COPY --chown=www:www ./siafc /var/www/siafc
+COPY --chown=www:www ./cafor /var/www/cafor
+COPY --chown=www:www ./cafor_old /var/www/cafor_old
 
 # muda o usuário atual
 USER www
